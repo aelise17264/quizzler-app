@@ -44,7 +44,7 @@ class QuizInterface:
             q_text = self.quiz.next_question()
             self.scoreboard.itemconfig(self.question_text, text=q_text)
         else:
-            self.scoreboard.itemconfig(self.question_text, text="You've reached the end of the quiz. How did you do?")
+            self.scoreboard.itemconfig(self.question_text, text=f"You've reached the end of the quiz. Your final score is: {self.quiz.score}/10")
             self.green.config(state="disabled")
             self.red.config(state="disabled")
 
