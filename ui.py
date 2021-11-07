@@ -10,7 +10,7 @@ class QuizInterface:
         self.window = Tk()
         self.window.title("Quizzler")
         self.window.config(bg=THEME_COLOR, padx=20, pady=20)
-        self.score = Label(text="Score:", fg="#FFFFFF", bg=THEME_COLOR, pady=20)
+        self.score = Label(text="Score: 0", fg="#FFFFFF", bg=THEME_COLOR, pady=20)
         self.score.grid(column=1, row=0, sticky=NE)
 
         self.scoreboard = Canvas(width=300, height=250)
@@ -39,9 +39,15 @@ class QuizInterface:
     def get_next_question(self):
         # tap into quiz_brain & get next question
         self.scoreboard.config(bg="#FFFFFF")
-        self.score.config(text=f"Score: {self.quiz.score}")
-        q_text = self.quiz.next_question()
-        self.scoreboard.itemconfig(self.question_text, text=q_text)
+        if self.quiz.still_has_questions():
+            self.score.config(text=f"Score: {self.quiz.score}")
+            q_text = self.quiz.next_question()
+            self.scoreboard.itemconfig(self.question_text, text=q_text)
+        else:
+            self.scoreboard.itemconfig(self.question_text, text="You've reached the end of the quiz. How did you do?")
+            self.green.config(state="disabled")
+            self.red.config(state="disabled")
+
 
     def answer_true(self):
         is_right = self.quiz.check_answer("True")
